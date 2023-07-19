@@ -1,3 +1,3 @@
-|              120x120 render               |               1000x1000 render               |
-|-------------------------------------------|----------------------------------------------|
-| ![120x120](/renders/120x120.png?raw=true) | ![1000x1000](renders/1000x1000.png?raw=true) |
+|           No light           |         No depth check         | Light and depth check |
+|-----------------------------------|------------------------------|---|
+| ![img](/renders/stbpng1.png?raw=true) | ![img](renders/stbpng2.png?raw=true) | ![img](renders/stbpng3.png?raw=true) |
