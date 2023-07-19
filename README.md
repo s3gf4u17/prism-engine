@@ -1,1 +1,1 @@
-![Alt text](/renders/120x120.png?raw=true "120x120 render")
+![120x120 render](/renders/120x120.png?raw=true "120x120 render" | width=100)
