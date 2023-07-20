@@ -1,6 +1,8 @@
 class RayCasting {
 private:
-    Vertex cameraPos{1.4,1,16};
+    Vertex cameraPos{0.0,0.0,0.0};
+    Vertex cameraP{11.414,-6.89003,8.22335};
+    const double cr[3] = {60.7593,0.000049,53.892};
 public:
     RayCasting(ObjFile *of, unsigned char *pixels) {
         Vertex lightPosition{10,-10,18};
@@ -10,8 +12,12 @@ public:
         double lightDirectionL = sqrt(dot(&lightDirectionN,&lightDirectionN));
         Vertex lightDirectionU{lightDirectionN.x/lightDirectionL,lightDirectionN.y/lightDirectionL,lightDirectionN.z/lightDirectionL};
         // Moller–Trumbore intersection algorithm - https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
+        for (int i = 0 ; i < of->faces.size() ; i++) {
+            transform(&of->faces[i].a);
+            transform(&of->faces[i].b);
+            transform(&of->faces[i].c);
+        }
         for (int y = 0 ; y < HEIGHT ; y++) {
-            break;
             for (int x = 0 ; x < WIDTH ; x++) {
                 Face closeF;
                 bool closeB = false;
@@ -44,23 +50,13 @@ public:
                     }
                 }
                 if (closeB) {
-                    double diff = std::max(dot(&(closeF.n),&lightDirectionU),0.0);
-                    pixels[(x+y*WIDTH)*3] = (ambient+diff*lightPower)*255;
-                    pixels[(x+y*WIDTH)*3+1] = (ambient+diff*lightPower)*255;
-                    pixels[(x+y*WIDTH)*3+2] = (ambient+diff*lightPower)*255;
+                    // double diff = std::max(dot(&(closeF.n),&lightDirectionU),0.0);
+                    pixels[(x+y*WIDTH)*3] = 255;//(ambient+diff*lightPower)*255;
+                    pixels[(x+y*WIDTH)*3+1] = 255;//(ambient+diff*lightPower)*255;
+                    pixels[(x+y*WIDTH)*3+2] = 255;//(ambient+diff*lightPower)*255;
                 }
+                std::cout << "y\t" << y << "\tx\t" << x << std::endl;
             }
-        }
-        for (Face face : of -> faces) {
-            Vertex camA{cameraPos.x-face.a.x,cameraPos.y-face.a.y,cameraPos.z-face.a.z};
-            Vertex camB{cameraPos.x-face.b.x,cameraPos.y-face.b.y,cameraPos.z-face.b.z};
-            Vertex camC{cameraPos.x-face.c.x,cameraPos.y-face.c.y,cameraPos.z-face.c.z};
-            double tA = 0;
-            double tB = 0;
-            double tC = 0;
-            Vertex planeA{camA/sqrt(dot(camA,camA))};
-            Vertex planeB{};
-            Vertex planeC{};
         }
     }
     double dot(Vertex *a, Vertex *b) {
@@ -71,5 +67,22 @@ public:
         double newy = a->z*b->x-a->x*b->z;
         double newz = a->x*b->y-a->y*b->x;
         return Vertex{newx,newy,newz};
+    }
+    void transform(Vertex *v) {
+        double x = v->x-cameraP.x;
+        double y = v->y-cameraP.y;
+        double z = v->z-cameraP.z;
+        double x1 = cos(-cr[2]/180.0*M_PI)*x-sin(-cr[2]/180.0*M_PI)*y;
+        double y1 = sin(-cr[2]/180.0*M_PI)*x+cos(-cr[2]/180.0*M_PI)*y;
+        double z1 = z;
+        double x2 = cos(-cr[1]/180.0*M_PI)*x1+sin(-cr[1]/180.0*M_PI)*z1;
+        double y2 = y1;
+        double z2 = -sin(-cr[1]/180.0*M_PI)*x1+cos(-cr[1]/180.0*M_PI)*z1;
+        double x3 = x2;
+        double y3 = cos(-cr[0]/180.0*M_PI)*y2-sin(-cr[0]/180.0*M_PI)*z2;
+        double z3 = sin(-cr[0]/180.0*M_PI)*y2+cos(-cr[0]/180.0*M_PI)*z2;
+        v->x=x3;
+        v->y=y3;
+        v->z=z3;
     }
 };

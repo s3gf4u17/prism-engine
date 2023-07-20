@@ -2,8 +2,8 @@
 // default camera focal length in blender - 50mm length
 // default camera render width in blender - 1920 px
 // default camera render height in blender - 1080 px
-#define WIDTH 100
-#define HEIGHT 100
+#define WIDTH 1200
+#define HEIGHT 1200
 #define CHANNELS 3
 #include <vector>
 #include <string>
@@ -13,8 +13,8 @@
 #include "lib/struct/vertex.cpp"
 #include "lib/struct/face.cpp"
 #include "lib/parser/obj_file.cpp"
-// #include "lib/camera/ray_casting.cpp"
-#include "lib/ray_casting.h"
+#include "lib/camera/ray_casting.cpp"
+// #include "lib/ray_casting.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "lib/encoder/stb_image_write.h"
 
