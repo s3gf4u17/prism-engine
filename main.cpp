@@ -13,7 +13,8 @@
 #include "lib/struct/vertex.cpp"
 #include "lib/struct/face.cpp"
 #include "lib/parser/obj_file.cpp"
-#include "lib/camera/ray_casting.cpp"
+// #include "lib/camera/ray_casting.cpp"
+#include "lib/ray_casting.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "lib/encoder/stb_image_write.h"
 
@@ -29,7 +30,7 @@ int main() {
     std::cout << "obj reader: " << duration1.count() << " microseconds" << std::endl;
     RayCasting *rc = new RayCasting(of,pixels);
     auto stop2 = high_resolution_clock::now();
-    auto duration2 = duration_cast<microseconds>(stop2 - start);
+    auto duration2 = duration_cast<microseconds>(stop2 - stop1);
     std::cout << "ray caster: " << duration2.count() << " microseconds" << std::endl;
     stbi_write_png("stbpng.png", WIDTH, HEIGHT, CHANNELS, pixels, WIDTH * CHANNELS);
     return 0;

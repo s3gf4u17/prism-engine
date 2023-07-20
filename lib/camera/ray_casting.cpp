@@ -11,6 +11,7 @@ public:
         Vertex lightDirectionU{lightDirectionN.x/lightDirectionL,lightDirectionN.y/lightDirectionL,lightDirectionN.z/lightDirectionL};
         // Moller–Trumbore intersection algorithm - https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
         for (int y = 0 ; y < HEIGHT ; y++) {
+            break;
             for (int x = 0 ; x < WIDTH ; x++) {
                 Face closeF;
                 bool closeB = false;
@@ -49,6 +50,17 @@ public:
                     pixels[(x+y*WIDTH)*3+2] = (ambient+diff*lightPower)*255;
                 }
             }
+        }
+        for (Face face : of -> faces) {
+            Vertex camA{cameraPos.x-face.a.x,cameraPos.y-face.a.y,cameraPos.z-face.a.z};
+            Vertex camB{cameraPos.x-face.b.x,cameraPos.y-face.b.y,cameraPos.z-face.b.z};
+            Vertex camC{cameraPos.x-face.c.x,cameraPos.y-face.c.y,cameraPos.z-face.c.z};
+            double tA = 0;
+            double tB = 0;
+            double tC = 0;
+            Vertex planeA{camA/sqrt(dot(camA,camA))};
+            Vertex planeB{};
+            Vertex planeC{};
         }
     }
     double dot(Vertex *a, Vertex *b) {
