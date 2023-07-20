@@ -2,8 +2,8 @@
 // default camera focal length in blender - 50mm length
 // default camera render width in blender - 1920 px
 // default camera render height in blender - 1080 px
-#define WIDTH 120
-#define HEIGHT 120
+#define WIDTH 100
+#define HEIGHT 100
 #define CHANNELS 3
 #include <vector>
 #include <string>
@@ -23,7 +23,7 @@ using namespace std::chrono;
 int main() {
     unsigned char *pixels = new unsigned char[WIDTH*HEIGHT*CHANNELS];
     auto start = high_resolution_clock::now();
-    ObjFile *of = new ObjFile("untitled.obj");
+    ObjFile *of = new ObjFile("model/untitled.obj");
     auto stop1 = high_resolution_clock::now();
     auto duration1 = duration_cast<microseconds>(stop1 - start);
     std::cout << "obj reader: " << duration1.count() << " microseconds" << std::endl;
