@@ -1,10 +1,10 @@
 default:
-	g++ main.cpp
+	g++ test.cpp
 	./a.out
 
 test:
-	g++ test.cpp
-	./a.out
+	g++ test.cpp -o test
+	./test
 
 release:
 	g++ main.cpp -O3 -o prism

@@ -50,13 +50,14 @@ public:
                     }
                 }
                 if (closeB) {
-                    // double diff = std::max(dot(&(closeF.n),&lightDirectionU),0.0);
-                    pixels[(x+y*WIDTH)*3] = 255;//(ambient+diff*lightPower)*255;
-                    pixels[(x+y*WIDTH)*3+1] = 255;//(ambient+diff*lightPower)*255;
-                    pixels[(x+y*WIDTH)*3+2] = 255;//(ambient+diff*lightPower)*255;
+                    double diff = std::max(dot(&(closeF.n),&lightDirectionU),0.0);
+                    pixels[(x+y*WIDTH)*3] = (ambient+diff*lightPower)*255;
+                    pixels[(x+y*WIDTH)*3+1] = (ambient+diff*lightPower)*255;
+                    pixels[(x+y*WIDTH)*3+2] = (ambient+diff*lightPower)*255;
                 }
                 std::cout << "y\t" << y << "\tx\t" << x << std::endl;
             }
+            stbi_write_png("stbpng1.png", WIDTH, HEIGHT, CHANNELS, pixels, WIDTH * CHANNELS);
         }
     }
     double dot(Vertex *a, Vertex *b) {
