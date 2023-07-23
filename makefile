@@ -1,5 +1,5 @@
 default:
-	g++ test.cpp
+	g++ main.cpp
 	./a.out
 
 test:
