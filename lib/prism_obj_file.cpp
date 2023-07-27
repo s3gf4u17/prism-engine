@@ -9,12 +9,12 @@ public:
     }
 };
 
-double dot(Vertex a, Vertex b) {
-    return a.x*b.x+a.y*b.y+a.z*b.z;
+double dot(Vertex *a, Vertex *b) {
+    return a->x*b->x+a->y*b->y+a->z*b->z;
 }
 
-Vertex cross(Vertex a, Vertex b) {
-    Vertex v(a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x);
+Vertex cross(Vertex *a, Vertex *b) {
+    Vertex v(a->y*b->z-a->z*b->y,a->z*b->x-a->x*b->z,a->x*b->y-a->y*b->x);
     return v;
 }
 
@@ -34,7 +34,10 @@ public:
     Face(Vertex a, Vertex b, Vertex c, Vertex n) {
         this->a = a; this->b = b; this->c = c; this->n = n;
         this->sphc = Vertex((a.x+b.x+c.x)/3.0,(a.y+b.y+c.y)/3.0,(a.z+b.z+c.z)/3.0);
-        this->sphr = std::max(sqrt(dot(a,sphc)),std::max(sqrt(dot(b,sphc)),sqrt(dot(c,sphc))));
+        double dista = sqrt(pow(a.x-sphc.x,2)+pow(a.y-sphc.y,2)+pow(a.z-sphc.z,2));
+        double distb = sqrt(pow(b.x-sphc.x,2)+pow(b.y-sphc.y,2)+pow(b.z-sphc.z,2));
+        double distc = sqrt(pow(c.x-sphc.x,2)+pow(c.y-sphc.y,2)+pow(c.z-sphc.z,2));
+        this->sphr = std::max(dista,std::max(distb,distc));
     }
 };
 
@@ -112,8 +115,8 @@ public:
                     int n1s = t1e+1; int n1e = parts[1].find("/",n1s);
                     int n = stoi(parts[1].substr(n1s,n1e-n1s))-1;
                     int v1 = stoi(parts[1].substr(0,parts[1].find("/",0)))-1;
-                    int v2 = stoi(parts[i+1].substr(0,parts[i].find("/",0)))-1;
-                    int v3 = stoi(parts[i+2].substr(0,parts[i+1].find("/",0)))-1;
+                    int v2 = stoi(parts[i+1].substr(0,parts[i+1].find("/",0)))-1;
+                    int v3 = stoi(parts[i+2].substr(0,parts[i+2].find("/",0)))-1;
                     Face face(vertices[v1],vertices[v2],vertices[v3],normals[n]);
                     faces.push_back(face);
                 }
@@ -135,6 +138,9 @@ public:
         for (Object object : scene->objects) {
             os << "obj origin(" << object.sphc.x << "," << object.sphc.y << "," << object.sphc.z << ")";
             os << " radius(" << object.sphr << ")" << std::endl;
+            for (Face face : object.faces) {
+                std::cout << "\t" << face.sphc.x << "," << face.sphc.y << "," << face.sphc.z << "\t" << face.sphr << "\n";
+            }
         }
         return os;
     }

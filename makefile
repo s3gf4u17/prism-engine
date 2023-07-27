@@ -7,9 +7,14 @@ test:
 	./test
 
 release:
+	@clear
 	g++ main.cpp -O3 -o prism
 	./prism
 
 conv:
 	g++ converter.cpp
 	./a.out
+
+use:
+	@clear
+	./prism

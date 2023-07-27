@@ -9,8 +9,8 @@
 #include <string>
 #include <vector>
 
-#define WIDTH 1000
-#define HEIGHT 1000
+#define WIDTH 260
+#define HEIGHT 260
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "lib/stb_image_write.h"
