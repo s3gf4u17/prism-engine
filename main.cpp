@@ -15,6 +15,7 @@
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "lib/stb_image_write.h"
+#include "lib/prism_lin_alg.c"
 #include "lib/prism_obj_file.cpp"
 #include "lib/prism_ray_cast.cpp"
 
