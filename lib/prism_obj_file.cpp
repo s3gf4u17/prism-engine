@@ -31,6 +31,7 @@ class Face {
 public:
     Vertex a,b,c,n,sphc;
     double sphr;
+    unsigned char R,G,B;
     Face(Vertex a, Vertex b, Vertex c, Vertex n) {
         this->a = a; this->b = b; this->c = c; this->n = n;
         this->sphc = Vertex((a.x+b.x+c.x)/3.0,(a.y+b.y+c.y)/3.0,(a.z+b.z+c.z)/3.0);
@@ -69,12 +70,24 @@ public:
     }
 };
 
+class Material {
+public:
+    std::string name;
+    unsigned char R,G,B;
+    Material(unsigned char R, unsigned char G, unsigned char B) {
+        this->R = R; this->G = G; this->B = B;
+    } 
+};
+
 class Scene {
 private:
     std::vector<Vertex> vertices;
     std::vector<Vertex> normals;
     std::vector<Face> faces;
+    std::map<std::string,Material> materials;
     Object object;
+    std::string cmat = "Material";
+    Material material = Material(0,0,0);
 public:
     std::vector<Object> objects;
     Scene(std::string source, Camera *camera) {
@@ -118,11 +131,39 @@ public:
                     int v2 = stoi(parts[i+1].substr(0,parts[i+1].find("/",0)))-1;
                     int v3 = stoi(parts[i+2].substr(0,parts[i+2].find("/",0)))-1;
                     Face face(vertices[v1],vertices[v2],vertices[v3],normals[n]);
+                    auto mat = materials.find(cmat);
+                    face.R = mat->second.R;
+                    face.G = mat->second.G;
+                    face.B = mat->second.B;
                     faces.push_back(face);
                 }
             } else if (parts[0]=="vn") {
                 Vertex n(stod(parts[1]),stod(parts[2]),stod(parts[3]));
                 normals.push_back(n);
+            } else if (parts[0]=="mtllib") {
+                std::string matsrc = "model/" + parts[1];
+                std::fstream matf(matsrc);
+                while(matf.is_open()&&getline(matf,buffer)) {
+                    std::vector<std::string> matparts;
+                    int mfront = 0, mback = 0;
+                    while (true) {
+                        mfront = buffer.find(" ",mback);
+                        matparts.push_back(buffer.substr(mback,mfront-mback));
+                        if (mfront==std::string::npos) break;
+                        mback = mfront + 1;
+                    }
+                    if (matparts[0]=="newmtl") {
+                        if (material.name!="") materials.insert({material.name,material});
+                        material = Material(0,0,0);
+                        material.name = matparts[1];
+                    } else if (matparts[0]=="Kd") {
+                        material.R = (unsigned char)(stod(matparts[1])*255);
+                        material.G = (unsigned char)(stod(matparts[2])*255);
+                        material.B = (unsigned char)(stod(matparts[3])*255);
+                    }
+                }
+            } else if (parts[0]=="usemtl") {
+                cmat = parts[1];
             }
         }
         if (!faces.empty()) {

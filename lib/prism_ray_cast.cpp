@@ -14,7 +14,7 @@ private:
     Vertex lightD = Vertex(10,0,10);
     double lightL = sqrt(dot(&lightD,&lightD));
     Vertex lightU = Vertex(lightD.x/lightL,lightD.y/lightL,lightD.z/lightL);
-    double lightW = 0.48, ambientW = 0.12;
+    double lightW = 0.68, ambientW = 0.24;
 public:
     RayCast(Scene *scene, unsigned char *img) {
         for (int y = 0 ; y < HEIGHT ; y++) {
@@ -50,9 +50,9 @@ public:
                         if (t>EPSILON&&t<zbuf) {
                             zbuf = t;
                             double diff = std::max(dot(&face.n,&lightU),0.0);
-                            img[(x+y*WIDTH)*3] = (ambientW+diff*lightW)*255;
-                            img[(x+y*WIDTH)*3+1] = (ambientW+diff*lightW)*255;
-                            img[(x+y*WIDTH)*3+2] = (ambientW+diff*lightW)*255;
+                            img[(x+y*WIDTH)*3] = (ambientW+diff*lightW)*face.R;
+                            img[(x+y*WIDTH)*3+1] = (ambientW+diff*lightW)*face.G;
+                            img[(x+y*WIDTH)*3+2] = (ambientW+diff*lightW)*face.B;
                         }
                     }
                 }
