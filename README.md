@@ -1,5 +1,24 @@
 Any obj file can be rendered (in Blender use export -> selected only -> forward axis Y -> up axis Z)
 
+<h2 align="center">Prism Engine</h2>
+
+<h4>Overview</h4>
+
+Prism is an amateur engine for rendering 3d scenes. I started the project in order to learn more about geometric algorithms. I intend to develop it further in my spare time :D
+
+<h4>Manual</h4>
+
+At the time of writing, there are no pre-compiled releases ready. User needs to clone the repository, change path to obj file in `main.cpp` (line 25) and compile the program manually:
+
+```
+git clone https://github.com/s3gf4u17/prism-engine
+cd prism-engine
+g++ -std=c++11 main.cpp -o prism-engine
+sudo mv prism-engine /bin/
+```
+
+<h4>Results</h4>
+
 <table width="100%">
   <tr>
   <td width="33.3%" align="center">Prism 0.1</td>
