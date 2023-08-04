@@ -31,3 +31,9 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
   <td width="33.3%"><img src="/renders/blender_cycles.png?raw=true"/></td>
   </tr>
 </table>
+
+<h3>Changes</h3>
+- v 0.1
+  - ray casting
+  - z buffer
+  - diffuse colors
