@@ -38,3 +38,4 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
   - ray casting
   - z buffer
   - diffuse colors
+  - single source lighting
