@@ -33,6 +33,7 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
 </table>
 
 <h3>Changes</h3>
+
 - v 0.1
   - ray casting
   - z buffer
