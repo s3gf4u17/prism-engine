@@ -1,5 +1,5 @@
 default:
-	g++ main.cpp
+	g++ -std=c++11 main.cpp
 	./a.out
 
 test:
@@ -18,3 +18,6 @@ conv:
 use:
 	@clear
 	./prism
+
+new:
+	g++ src/main.c && ./a.out

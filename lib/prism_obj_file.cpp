@@ -29,45 +29,20 @@ public:
 
 class Face {
 public:
-    Vertex a,b,c,n,sphc;
-    double sphr;
+    Vertex a,b,c,n;
     unsigned char R,G,B;
     Face(Vertex a, Vertex b, Vertex c, Vertex n) {
         this->a = a; this->b = b; this->c = c; this->n = n;
-        this->sphc = Vertex((a.x+b.x+c.x)/3.0,(a.y+b.y+c.y)/3.0,(a.z+b.z+c.z)/3.0);
-        double dista = sqrt(pow(a.x-sphc.x,2)+pow(a.y-sphc.y,2)+pow(a.z-sphc.z,2));
-        double distb = sqrt(pow(b.x-sphc.x,2)+pow(b.y-sphc.y,2)+pow(b.z-sphc.z,2));
-        double distc = sqrt(pow(c.x-sphc.x,2)+pow(c.y-sphc.y,2)+pow(c.z-sphc.z,2));
-        this->sphr = std::max(dista,std::max(distb,distc));
     }
 };
 
 class Object {
 public:
     std::vector<Face> faces;
-    Vertex sphc;
-    double sphr = 0.0;
-    double sumx,sumy,sumz;
-    int count;
     Object(std::vector<Face> faces) {
         this->faces.swap(faces);
-        sumx=0;sumy=0;sumz=0;count=0;
     }
     Object() {}
-    void find_origin() {
-        for (int i = 0 ; i < faces.size() ; i++) {
-            sumx+=faces[i].a.x;sumx+=faces[i].b.x;sumx+=faces[i].c.x;
-            sumy+=faces[i].a.y;sumy+=faces[i].b.y;sumy+=faces[i].c.y;
-            sumz+=faces[i].a.z;sumz+=faces[i].b.z;sumz+=faces[i].c.z;
-            count+=3;
-        }
-        sphc = Vertex(sumx/count,sumy/count,sumz/count);
-        for (Face face : faces) {
-            sphr = std::max(sphr,sqrt(pow(face.a.x-sphc.x,2)+pow(face.a.y-sphc.y,2)+pow(face.a.z-sphc.z,2)));
-            sphr = std::max(sphr,sqrt(pow(face.b.x-sphc.x,2)+pow(face.b.y-sphc.y,2)+pow(face.b.z-sphc.z,2)));
-            sphr = std::max(sphr,sqrt(pow(face.c.x-sphc.x,2)+pow(face.c.y-sphc.y,2)+pow(face.c.z-sphc.z,2)));
-        }
-    }
 };
 
 class Material {
@@ -105,7 +80,6 @@ public:
             if (parts[0]=="o") {
                 if (!faces.empty()) {
                     Object object(faces);
-                    object.find_origin();
                     objects.push_back(object);
                     faces.clear();
                 }
@@ -162,13 +136,13 @@ public:
                         material.B = (unsigned char)(stod(matparts[3])*255);
                     }
                 }
+                if (material.name!="") materials.insert({material.name,material});
             } else if (parts[0]=="usemtl") {
                 cmat = parts[1];
             }
         }
         if (!faces.empty()) {
             Object object(faces);
-            object.find_origin();
             objects.push_back(object);
             faces.clear();
         }
@@ -176,13 +150,6 @@ public:
     friend std::ostream& operator <<(std::ostream& os, Scene *scene) {
         os << "vrtcnt\t" << scene->vertices.size() << std::endl;
         os << "objcnt\t" << scene->objects.size() << std::endl;
-        for (Object object : scene->objects) {
-            os << "obj origin(" << object.sphc.x << "," << object.sphc.y << "," << object.sphc.z << ")";
-            os << " radius(" << object.sphr << ")" << std::endl;
-            for (Face face : object.faces) {
-                std::cout << "\t" << face.sphc.x << "," << face.sphc.y << "," << face.sphc.z << "\t" << face.sphr << "\n";
-            }
-        }
         return os;
     }
 };

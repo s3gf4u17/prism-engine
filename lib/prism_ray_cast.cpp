@@ -16,23 +16,21 @@ private:
     Vertex lightU = Vertex(lightD.x/lightL,lightD.y/lightL,lightD.z/lightL);
     double lightW = 0.68, ambientW = 0.24;
 public:
-    RayCast(Scene *scene, unsigned char *img) {
-        for (int y = 0 ; y < HEIGHT ; y++) {
-            for (int x = 0 ; x < WIDTH ; x++) {
-                Vertex rayN(-sensw/2.0+(x+0.5)*(sensw/WIDTH),sensh/2.0-(y+0.5)*(sensh/HEIGHT),-50.0);
-                double rayL = sqrt(dot(&rayN,&rayN));
-                Vertex rayU(rayN.x/rayL,rayN.y/rayL,rayN.z/rayL);
-                double zbuf = 10000.0;
-                for (Object object : scene->objects) {
-                    if (dist_line_point(&rayU,&object.sphc)>object.sphr) {
-                        objfacomt+=object.faces.size();
-                        continue;
-                    }
-                    for (Face face : object.faces) {
-                        if (dist_line_point(&rayU,&face.sphc)>face.sphr) {
-                            facfacomt+=1;
-                            continue;
-                        }
+    RayCast(Scene *scene, unsigned char *img, double *zbuf) {
+        for (Object object : scene->objects) {
+            for (Face face : object.faces) {
+                float multa = 50.0/face.a.z;
+                float multb = 50.0/face.b.z;
+                float multc = 50.0/face.c.z;
+                float xmax = std::max(std::max(face.a.x*multa,face.b.x*multb),face.c.x*multc);
+                float xmin = std::min(std::min(face.a.x*multa,face.b.x*multb),face.c.x*multc);
+                float ymax = std::max(std::max(face.a.y*multa,face.b.y*multb),face.c.y*multc);
+                float ymin = std::min(std::min(face.a.y*multa,face.b.y*multb),face.c.y*multc);
+                for (int y = ymin/sensh*HEIGHT+HEIGHT/2 ; y < ymax/sensh*HEIGHT+HEIGHT/2 ; y++) {
+                    for (int x = -xmax/sensw*WIDTH+WIDTH/2 ; x < -xmin/sensw*WIDTH+WIDTH/2 ; x++) {
+                        Vertex rayN(-sensw/2.0+(x+0.5)*(sensw/WIDTH),sensh/2.0-(y+0.5)*(sensh/HEIGHT),-50.0);
+                        double rayL = sqrt(dot(&rayN,&rayN));
+                        Vertex rayU(rayN.x/rayL,rayN.y/rayL,rayN.z/rayL);
                         const float EPSILON = 0.0000001;
                         Vertex edge1(face.b.x-face.a.x,face.b.y-face.a.y,face.b.z-face.a.z);
                         Vertex edge2(face.c.x-face.a.x,face.c.y-face.a.y,face.c.z-face.a.z);
@@ -47,19 +45,16 @@ public:
                         double v = f * dot(&rayU,&q);
                         if (v < 0.0 || u + v > 1.0) continue;
                         double t = f * dot(&edge2,&q);
-                        if (t>EPSILON&&t<zbuf) {
-                            zbuf = t;
-                            double diff = std::max(dot(&face.n,&lightU),0.0);
-                            img[(x+y*WIDTH)*3] = (ambientW+diff*lightW)*face.R;
-                            img[(x+y*WIDTH)*3+1] = (ambientW+diff*lightW)*face.G;
-                            img[(x+y*WIDTH)*3+2] = (ambientW+diff*lightW)*face.B;
-                        }
+                        if (x+y*WIDTH<0||x+y*WIDTH>WIDTH*HEIGHT) continue;
+                        if (t<EPSILON||t>zbuf[x+y*WIDTH]) continue;
+                        zbuf[x+y*WIDTH]=t;
+                        double diff = std::max(dot(&face.n,&lightU),0.0);
+                        if ((x+y*WIDTH)*3>0&&(x+y*WIDTH)*3<WIDTH*HEIGHT*3) img[(x+y*WIDTH)*3] = (ambientW+diff*lightW)*face.R;
+                        if ((x+y*WIDTH)*3+1>0&&(x+y*WIDTH)*3+1<WIDTH*HEIGHT*3) img[(x+y*WIDTH)*3+1] = (ambientW+diff*lightW)*face.G;
+                        if ((x+y*WIDTH)*3+2>0&&(x+y*WIDTH)*3+2<WIDTH*HEIGHT*3) img[(x+y*WIDTH)*3+2] = (ambientW+diff*lightW)*face.B;
                     }
                 }
             }
         }
-        // finished scanning
-        std::cout << "faces omitted by excluding objects: " << objfacomt << std::endl;
-        std::cout << "faces omitted by generated spheres: " << facfacomt << std::endl;
     }
 };
