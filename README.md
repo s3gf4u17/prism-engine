@@ -26,7 +26,7 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
   <td width="33.3%" align="center">Cycles (Blender)</td>
   </tr>
   <tr>
-  <td width="33.3%"><img src="/renders/prism_render.png?raw=true"/></td>
+  <td width="33.3%"><img src="![untitled](https://github.com/s3gf4u17/prism-engine/assets/86662946/0dea16fd-d55e-44da-b2fa-372d727fb647)"/></td>
   <td width="33.3%"><img src="/renders/blender_eevee.png?raw=true"/></td>
   <td width="33.3%"><img src="/renders/blender_cycles.png?raw=true"/></td>
   </tr>
