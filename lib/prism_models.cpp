@@ -1,71 +1,35 @@
-class Vertex {
-public:
-    double x,y,z;
-    Vertex(double x, double y, double z) {
-        this->x = x; this->y = y; this->z = z;
-    }
-    Vertex() {
-        this->x = 0; this->y = 0; this->z = 0;
-    }
-};
+#include <prism_models.h>
 
-double dot(Vertex *a, Vertex *b) {
-    return a->x*b->x+a->y*b->y+a->z*b->z;
+Vertex::Vertex(double x, double y, double z) {
+    this->x = x; this->y = y; this->z = z;
 }
 
-Vertex cross(Vertex *a, Vertex *b) {
-    Vertex v(a->y*b->z-a->z*b->y,a->z*b->x-a->x*b->z,a->x*b->y-a->y*b->x);
-    return v;
+Vertex::Vertex() {
+    this->x = 0; this->y = 0; this->z = 0;
 }
 
-class Camera {
-public:
-    Vertex pos,rot;
-    Camera(Vertex pos, Vertex rot) {
-        this->pos = pos;
-        this->rot = rot;
-    }
-};
+Camera::Camera(Vertex pos, Vertex rot) {
+    this->pos = pos;
+    this->rot = rot;
+}
 
-class Face {
-public:
-    Vertex a,b,c,n;
-    unsigned char R,G,B;
-    Face(Vertex a, Vertex b, Vertex c, Vertex n) {
-        this->a = a; this->b = b; this->c = c; this->n = n;
-    }
-};
+Face::Face(Vertex a, Vertex b, Vertex c, Vertex n) {
+    this->a = a; this->b = b; this->c = c; this->n = n;
+}
 
-class Object {
-public:
-    std::vector<Face> faces;
-    Object(std::vector<Face> faces) {
-        this->faces.swap(faces);
-    }
-    Object() {}
-};
+Object::Object(std::vector<Face> faces) {
+    this->faces.swap(faces);
+}
 
-class Material {
-public:
-    std::string name;
-    unsigned char R,G,B;
-    Material(unsigned char R, unsigned char G, unsigned char B) {
-        this->R = R; this->G = G; this->B = B;
-    } 
-};
+Object::Object() {
 
-class Scene {
-private:
-    std::vector<Vertex> vertices;
-    std::vector<Vertex> normals;
-    std::vector<Face> faces;
-    std::map<std::string,Material> materials;
-    Object object;
-    std::string cmat = "Material";
-    Material material = Material(0,0,0);
-public:
-    std::vector<Object> objects;
-    Scene(std::string source, Camera *camera) {
+}
+
+Material::Material(unsigned char R, unsigned char G, unsigned char B) {
+    this->R = R; this->G = G; this->B = B;
+}
+
+Scene::Scene(std::string source, Camera *camera) {
         std::fstream file(source);
         std::string buffer;
         while(file.is_open()&&getline(file,buffer)) {
@@ -115,7 +79,7 @@ public:
                 Vertex n(stod(parts[1]),stod(parts[2]),stod(parts[3]));
                 normals.push_back(n);
             } else if (parts[0]=="mtllib") {
-                std::string matsrc = "model/" + parts[1];
+                std::string matsrc = "test/" + parts[1];
                 std::fstream matf(matsrc);
                 while(matf.is_open()&&getline(matf,buffer)) {
                     std::vector<std::string> matparts;
@@ -147,9 +111,3 @@ public:
             faces.clear();
         }
     }
-    friend std::ostream& operator <<(std::ostream& os, Scene *scene) {
-        os << "vrtcnt\t" << scene->vertices.size() << std::endl;
-        os << "objcnt\t" << scene->objects.size() << std::endl;
-        return os;
-    }
-};

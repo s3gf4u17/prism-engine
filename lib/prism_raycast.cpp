@@ -1,22 +1,6 @@
-double dist_line_point(Vertex *line, Vertex *point) {
-    Vertex APxd = cross(point,line);
-    double APxdL = sqrt(dot(&APxd,&APxd));
-    double dL = sqrt(dot(line,line));
-    return APxdL/dL;
-}
+#include <prism_raycast.h>
 
-class RayCast {
-private:
-    double sensw = 36.0;
-    double sensh = 36.0/WIDTH*HEIGHT;
-    long int objfacomt = 0;
-    long int facfacomt = 0;
-    Vertex lightD = Vertex(10,0,10);
-    double lightL = sqrt(dot(&lightD,&lightD));
-    Vertex lightU = Vertex(lightD.x/lightL,lightD.y/lightL,lightD.z/lightL);
-    double lightW = 0.68, ambientW = 0.24;
-public:
-    RayCast(Scene *scene, unsigned char *img, double *zbuf) {
+RayCast::RayCast(Scene *scene, unsigned char *img, double *zbuf) {
         for (Object object : scene->objects) {
             for (Face face : object.faces) {
                 float multa = 50.0/face.a.z;
@@ -57,4 +41,3 @@ public:
             }
         }
     }
-};
