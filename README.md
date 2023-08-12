@@ -21,7 +21,7 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
 
 <table width="100%">
   <tr>
-  <td width="33.3%" align="center">Prism 0.1</td>
+  <td width="33.3%" align="center">Prism 0.2</td>
   <td width="33.3%" align="center">Eevee (Blender)</td>
   <td width="33.3%" align="center">Cycles (Blender)</td>
   </tr>
