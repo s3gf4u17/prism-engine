@@ -22,9 +22,9 @@ public:
 
 class Face {
 public:
-    Vertex a,b,c,n;
+    Vertex a,b,c,n,nb,nc;
     unsigned char R,G,B;
-    Face(Vertex a, Vertex b, Vertex c, Vertex n);
+    Face(Vertex a, Vertex b, Vertex c, Vertex n, Vertex nb, Vertex nc);
 };
 
 class Object {

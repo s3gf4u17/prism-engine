@@ -1,4 +1,5 @@
 #include <prism_raycast.h>
+#include <iostream>
 
 RayCast::RayCast(Scene *scene, unsigned char *img, double *zbuf) {
         for (Object object : scene->objects) {
@@ -15,6 +16,7 @@ RayCast::RayCast(Scene *scene, unsigned char *img, double *zbuf) {
                         Vertex rayN(-sensw/2.0+(x+0.5)*(sensw/WIDTH),sensh/2.0-(y+0.5)*(sensh/HEIGHT),-50.0);
                         double rayL = sqrt(dot(&rayN,&rayN));
                         Vertex rayU(rayN.x/rayL,rayN.y/rayL,rayN.z/rayL);
+                        
                         const float EPSILON = 0.0000001;
                         Vertex edge1(face.b.x-face.a.x,face.b.y-face.a.y,face.b.z-face.a.z);
                         Vertex edge2(face.c.x-face.a.x,face.c.y-face.a.y,face.c.z-face.a.z);
@@ -32,7 +34,14 @@ RayCast::RayCast(Scene *scene, unsigned char *img, double *zbuf) {
                         if (x+y*WIDTH<0||x+y*WIDTH>WIDTH*HEIGHT) continue;
                         if (t<EPSILON||t>zbuf[x+y*WIDTH]) continue;
                         zbuf[x+y*WIDTH]=t;
-                        double diff = std::max(dot(&face.n,&lightU),0.0);
+                        // avg normal - using x and y
+                        Vertex normal;
+                        normal.x = face.n.x*(1-u-v)+face.nb.x*u+face.nc.x*v;
+                        normal.y = face.n.y*(1-u-v)+face.nb.y*u+face.nc.y*v;
+                        normal.z = face.n.z*(1-u-v)+face.nb.z*u+face.nc.z*v;
+                        double normalL = sqrt(dot(&normal,&normal));
+                        Vertex normalU(normal.x/normalL,normal.y/normalL,normal.z/normalL);
+                        double diff = std::max(dot(&normalU,&lightU),0.0);
                         if ((x+y*WIDTH)*3>0&&(x+y*WIDTH)*3<WIDTH*HEIGHT*3) img[(x+y*WIDTH)*3] = (ambientW+diff*lightW)*face.R;
                         if ((x+y*WIDTH)*3+1>0&&(x+y*WIDTH)*3+1<WIDTH*HEIGHT*3) img[(x+y*WIDTH)*3+1] = (ambientW+diff*lightW)*face.G;
                         if ((x+y*WIDTH)*3+2>0&&(x+y*WIDTH)*3+2<WIDTH*HEIGHT*3) img[(x+y*WIDTH)*3+2] = (ambientW+diff*lightW)*face.B;

@@ -13,8 +13,8 @@ Camera::Camera(Vertex pos, Vertex rot) {
     this->rot = rot;
 }
 
-Face::Face(Vertex a, Vertex b, Vertex c, Vertex n) {
-    this->a = a; this->b = b; this->c = c; this->n = n;
+Face::Face(Vertex a, Vertex b, Vertex c, Vertex n, Vertex nb, Vertex nc) {
+    this->a = a; this->b = b; this->c = c; this->n = n; this->nb = nb; this->nc = nc;
 }
 
 Object::Object(std::vector<Face> faces) {
@@ -64,11 +64,22 @@ Scene::Scene(std::string source, Camera *camera) {
                     int v1s = 0; int v1e = parts[1].find("/",0);
                     int t1s = v1e+1; int t1e = parts[1].find("/",t1s);
                     int n1s = t1e+1; int n1e = parts[1].find("/",n1s);
-                    int n = stoi(parts[1].substr(n1s,n1e-n1s))-1;
+                    int n1 = stoi(parts[1].substr(n1s,n1e-n1s))-1;
+
+                    int v2s = 0; int v2e = parts[i+1].find("/",0);
+                    int t2s = v2e+1; int t2e = parts[i+1].find("/",t2s);
+                    int n2s = t2e+1; int n2e = parts[i+1].find("/",n2s);
+                    int n2 = stoi(parts[i+1].substr(n2s,n2e-n2s))-1;
+
+                    int v3s = 0; int v3e = parts[i+2].find("/",0);
+                    int t3s = v3e+1; int t3e = parts[i+2].find("/",t3s);
+                    int n3s = t3e+1; int n3e = parts[i+2].find("/",n3s);
+                    int n3 = stoi(parts[i+2].substr(n3s,n3e-n3s))-1;
+
                     int v1 = stoi(parts[1].substr(0,parts[1].find("/",0)))-1;
                     int v2 = stoi(parts[i+1].substr(0,parts[i+1].find("/",0)))-1;
                     int v3 = stoi(parts[i+2].substr(0,parts[i+2].find("/",0)))-1;
-                    Face face(vertices[v1],vertices[v2],vertices[v3],normals[n]);
+                    Face face(vertices[v1],vertices[v2],vertices[v3],normals[n1],normals[n2],normals[n3]);
                     auto mat = materials.find(cmat);
                     face.R = mat->second.R;
                     face.G = mat->second.G;
