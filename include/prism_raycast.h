@@ -9,8 +9,6 @@ class RayCast {
 private:
     double sensw = 36.0;
     double sensh = 36.0/WIDTH*HEIGHT;
-    long int objfacomt = 0;
-    long int facfacomt = 0;
     Vertex lightD = Vertex(10,0,5);
     double lightL = sqrt(dot(&lightD,&lightD));
     Vertex lightU = Vertex(lightD.x/lightL,lightD.y/lightL,lightD.z/lightL);
