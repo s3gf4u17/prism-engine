@@ -87,7 +87,16 @@ Scene::Scene(std::string source, Camera *camera) {
                     faces.push_back(face);
                 }
             } else if (parts[0]=="vn") {
-                Vertex n(stod(parts[1]),stod(parts[2]),stod(parts[3]));
+                double x0 = stod(parts[1]);
+                double y0 = stod(parts[2]);
+                double z0 = stod(parts[3]);
+                double x1 = cos(-camera->rot.z/180.0*M_PI)*x0-sin(-camera->rot.z/180.0*M_PI)*y0;
+                double y1 = sin(-camera->rot.z/180.0*M_PI)*x0+cos(-camera->rot.z/180.0*M_PI)*y0;
+                double x2 = cos(-camera->rot.y/180.0*M_PI)*x1-sin(-camera->rot.y/180.0*M_PI)*z0;
+                double z2 = sin(-camera->rot.y/180.0*M_PI)*x1+cos(-camera->rot.y/180.0*M_PI)*z0;
+                double y3 = cos(-camera->rot.x/180.0*M_PI)*y1-sin(-camera->rot.x/180.0*M_PI)*z2;
+                double z3 = sin(-camera->rot.x/180.0*M_PI)*y1+cos(-camera->rot.x/180.0*M_PI)*z2;
+                Vertex n(x2,y3,z3);
                 normals.push_back(n);
             } else if (parts[0]=="mtllib") {
                 std::string matsrc = "test/" + parts[1];
