@@ -26,9 +26,9 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
   <td width="33.3%" align="center">Cycles (Blender)</td>
   </tr>
   <tr>
-  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/da51da6f-7ccf-4cc5-947e-ebd02389ddd9"/></td>
-  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/d5f8f48a-2d05-4e29-8af5-a30eb2ef2b71"/></td>
-  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/2717c9c9-87c7-422d-aa78-4cce89c95cdc"/></td>
+  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/3a2bcbeb-88ac-44d5-92c6-399085887d66"/></td>
+  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/b194885e-0ff8-41ea-8703-913d0cc16bef"/></td>
+  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/e05d29d9-bb47-44ee-b8be-d06fee6e93b6"/></td>
   </tr>
 </table>
 
