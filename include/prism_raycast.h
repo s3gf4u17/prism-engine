@@ -10,7 +10,7 @@ private:
     double sensw = 36.0;
     double sensh = 36.0/WIDTH*HEIGHT;
     Vertex lpos = Vertex(6.8999,-3.64955,4.4375);
-    double lpow = 5;
+    double lpow = 500;
 
     Vertex lightD = Vertex(10,0,5);
     double lightL = sqrt(dot(&lightD,&lightD));

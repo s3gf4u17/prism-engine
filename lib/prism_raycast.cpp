@@ -56,7 +56,7 @@ RayCast::RayCast(Scene *scene, unsigned char *img, double *zbuf, Camera* camera)
                         inttolight.z = lpos.z-intersection.z;
                         float distance = sqrt(dot(&inttolight,&inttolight));
                         Vertex lightdirection(inttolight.x/distance,inttolight.y/distance,inttolight.z/distance);
-                        float lpowl = lpow/distance;
+                        float lpowl = lpow/(4*M_PI*pow(distance,2));
                         // avg normal - using x and y
                         Vertex normal;
                         normal.x = face.n.x*(1-u-v)+face.nb.x*u+face.nc.x*v;
