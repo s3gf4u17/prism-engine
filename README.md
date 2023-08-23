@@ -22,7 +22,7 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
 <table width="100%">
   <tr>
   <td width="33.3%" align="center">Fragment Shader</td>
-  <td width="33.3%" align="center"></td>
+  <td width="33.3%" align="center">Background Gradient</td>
   <td width="33.3%" align="center"></td>
   </tr>
   <tr>
