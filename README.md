@@ -21,6 +21,19 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
 
 <table width="100%">
   <tr>
+  <td width="33.3%" align="center">Fragment Shader</td>
+  <td width="33.3%" align="center"></td>
+  <td width="33.3%" align="center"></td>
+  </tr>
+  <tr>
+  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/6c25fa51-7de8-4997-9fb3-d330b15b3832"/></td>
+  <td width="33.3%"><</td>
+  <td width="33.3%"></td>
+  </tr>
+</table>
+
+<table width="100%">
+  <tr>
   <td width="33.3%" align="center">Prism 0.2</td>
   <td width="33.3%" align="center">Eevee (Blender)</td>
   <td width="33.3%" align="center">Cycles (Blender)</td>
