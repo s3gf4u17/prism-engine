@@ -28,7 +28,7 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
   <tr>
   <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/6c25fa51-7de8-4997-9fb3-d330b15b3832"/></td>
   <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/a0c486ba-bcf4-47f8-bca4-bdb0032cec89"/></td>
-  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/249240fb-188d-4485-ac6e-fc65884b166c"/></td>
+  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/6229ccbf-d507-4610-8064-cb1ec6b2c9f4"/></td>
   </tr>
 </table>
 
