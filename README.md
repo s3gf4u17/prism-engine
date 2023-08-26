@@ -32,12 +32,12 @@ Note: any obj file can be rendered (in Blender use export -> selected only -> fo
   </tr>
   <tr>
   <td width="33.3%" align="center">Sphere Normals</td>
-  <td width="33.3%" align="center"></td>
+  <td width="33.3%" align="center">Multiple Objects</td>
   <td width="33.3%" align="center"></td>
   </tr>
   <tr>
   <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/d7ae385d-3a79-4bc9-b3e8-0abc2495985f"/></td>
-  <td width="33.3%"></td>
+  <td width="33.3%"><img src="https://github.com/s3gf4u17/prism-engine/assets/86662946/d5946ec9-a9fb-4d91-a7a8-85fb5225226d"/></td>
   <td width="33.3%"></td>
   </tr>
 </table>
